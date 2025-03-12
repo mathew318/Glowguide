@@ -88,20 +88,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Add event listener for change image button
-    document.getElementById('changeImageBtn').addEventListener('click', function() {
-        // Reset the image upload state
-        imageUploaded = false;
-        imagePreviewContainer.style.display = 'none';
-        
-        // Show the upload icon and text again
-        const uploadIcon = uploadArea.querySelector('.upload-icon');
-        const uploadText = uploadArea.querySelector('p');
-        if (uploadIcon) uploadIcon.style.display = 'block';
-        if (uploadText) uploadText.textContent = 'Drag and drop your image here or click to browse';
-        
-        // Trigger file input click
-        fileInput.click();
-    });
+    document.getElementById("fileInput").addEventListener("change", async function () {
+        let formData = new FormData();
+        formData.append("skin_type", "oily");
+        formData.append("concerns", JSON.stringify(["acne", "aging"]));
+    
+        let response = await fetch("http://127.0.0.1:8000/analyze/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                skin_type: "oily",
+                concerns: ["acne", "aging"]
+            })
+        });
+    
+        let result = await response.json();
+        console.log("Recommended Products:", result.recommended_products);
+    });    
 });
 
 // Validation functions
