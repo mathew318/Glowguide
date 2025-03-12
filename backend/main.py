@@ -3,6 +3,8 @@ from database import init_db
 from fastapi.middleware.cors import CORSMiddleware
 from routes import skin_analysis
 
+
+
 app = FastAPI()
 
 # Enable CORS (for frontend)
